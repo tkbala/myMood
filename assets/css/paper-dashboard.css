@@ -390,7 +390,10 @@ hr {
     opacity: 1; }
 
 .main-panel {
-  background-color: #f4f3ef;
+  /*
+  background-color: ##00aa8d;
+  */
+  background-color: #FFFFFF;
   position: relative;
   z-index: 2;
   float: right;
@@ -1189,7 +1192,8 @@ textarea.form-control {
   margin-top: -5px; }
 
 .navbar-default {
-  background-color: #f4f3ef;
+  /*background-color: #f4f3ef;*/
+  background-color: #7ac29a;
   border-bottom: 1px solid #DDDDDD; }
   .navbar-default .brand {
     color: #66615b !important; }
