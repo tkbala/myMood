@@ -4,6 +4,7 @@
        -moz-appearance:none;
             appearance:none;
 }
+
 .depressed{background-image:url(../img/emotions/depressed.png);}
 .excited{background-image:url(../img/emotions/excited.png);}
 .sad{background-image:url(../img/emotions/sad.png);}
@@ -25,7 +26,7 @@
     background-size:contain;
     background-repeat:no-repeat;
     display:inline-block;
-    width:100px;height:70px;
+    width:100px;height:100px;
     -webkit-transition: all 100ms ease-in;
        -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;

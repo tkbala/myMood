@@ -23,6 +23,7 @@
     <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
 
 <link href="assets/css/myMood.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     
 
 
@@ -30,6 +31,25 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
+
+    <script type="text/javascript">
+     
+
+     function writeEmoGrid(){
+        var emotionGridHTML = "";
+        var emotions = ['depressed','excited','happy','neutral','relaxed','sad','shocked','stressed','tired'];
+        var names = ['Depressed','Excited','Happy','Neutral','Relaxed','Sad','Shocked','Stressed','Tired'];
+
+        for(j = 0; j < 9; j++){
+                emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" ></input><label class="animate-emotion '+emotions[j]+'" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+names[j]+'</td></tr></table> ';
+            }
+        document.getElementById('emoGrid').innerHTML = emotionGridHTML;
+            };
+            window.onload = function(){
+                writeEmoGrid();
+            }
+         
+    </script>
 
 </head>
 <body>
@@ -151,34 +171,46 @@
                     <h1 align = "center"> How are You? </h1>
                 </div>
 
-                <div class="emotion-selector">
-                    <table class="grid" cellspacing="10">
+                
+                    
 
                          
 
-                        <div class="emotion-selector">
-                            <input id="depressed" type="radio" name="emotion" value="1" />
-                            <label class="animate-emotion depressed" for="depressed"></label>
-                            <input id="excited" type="radio" name="emotion" value="2" />
+                        <div id="emoGrid" class="emotion-selector">
+                            <!--
+                            <table>
+                                <tr>
+                                    <td align = "center"><input id="depressed" type="radio" name="emotion" value="1" ></input>
+                            <label class="animate-emotion depressed" for="depressed"></label></td>
+                                </tr>
+                                <tr><td align="center">Depressed</td></tr>
+                               </table> 
+                            
+                            <input id="excited" type="radio" name="emotion" value="2" >Excited</input>
                             <label class="animate-emotion excited"for="excited"></label>
-                            <input id="happy" type="radio" name="emotion" value="3" />
+                            <input id="happy" type="radio" name="emotion" value="3" >Happy</input>
                             <label class="animate-emotion happy"for="happy"></label>
-                            <input id="neutral" type="radio" name="emotion" value="4" />
+                            <input id="neutral" type="radio" name="emotion" value="4" >Neutral</input>
                             <label class="animate-emotion neutral"for="neutral"></label>
-                            <input id="relaxed" type="radio" name="emotion" value="5" />
+                            <input id="relaxed" type="radio" name="emotion" value="5" >Relaxed</input>
                             <label class="animate-emotion excited"for="relaxed"></label>
-                            <input id="sad" type="radio" name="emotion" value="6" />
+                            <input id="sad" type="radio" name="emotion" value="6" >Sad</input>
                             <label class="animate-emotion sad"for="sad"></label>
-                            <input id="shocked" type="radio" name="emotion" value="2" />
+                            <input id="shocked" type="radio" name="emotion" value="7" >Shocked</input>
                             <label class="animate-emotion shocked"for="shocked"></label>
+                            <input id="stressed" type="radio" name="emotion" value="8" >Stressed</input>
+                            <label class="animate-emotion stressed"for="stressed"></label>
+                            <input id="tired" type="radio" name="emotion" value="9" >Tired</input>
+                            <label class="animate-emotion tired"for="tired"></label>
+                            -->
                         </div>
 
-                         </tr>
-                </div>
+                         
+                
 
                          
 
-                    </table>
+                    
                 <div class="col-lg-3 col-sm-6">
                         
                     </div>
@@ -210,7 +242,7 @@
 	<!-- <script src="assets/js/bootstrap-checkbox-radio.js"></script> -->
 
 	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+	<!-- <script src="assets/js/chartist.min.js"></script> -->
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
@@ -221,16 +253,6 @@
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
 
-	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
-
-	<script type="text/javascript">
-    	$(document).ready(function(){
-
-        	demo.initChartist();
-
-
-    	});
-	</script>
+	
 
 </html>
