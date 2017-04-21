@@ -1198,7 +1198,7 @@ textarea.form-control {
   .navbar-default .brand {
     color: #ffffff !important; }
   .navbar-default .navbar-nav > li > a:not(.btn) {
-    color: #9A9A9A; }
+    color: #ffffff; }
   .navbar-default .navbar-nav > .active > a,
   .navbar-default .navbar-nav > .active > a:not(.btn):hover,
   .navbar-default .navbar-nav > .active > a:not(.btn):focus,
@@ -1224,7 +1224,7 @@ textarea.form-control {
     color: #68B3C8;
     border-color: #68B3C8; }
   .navbar-default:not(.navbar-transparent) .btn-neutral, .navbar-default:not(.navbar-transparent) .btn-neutral:hover, .navbar-default:not(.navbar-transparent) .btn-neutral:active {
-    color: #9A9A9A; }
+    color: #ffffff; }
 
 .navbar-form {
   -webkit-box-shadow: none;
@@ -1396,7 +1396,7 @@ textarea.form-control {
     background-color: #F1EAE0;
     margin: 0px; }
   .dropdown-menu .dropdown-header {
-    color: #9A9A9A;
+    color: #ffffff;
     font-size: 12px;
     padding: 10px 15px; }
   .select .dropdown-menu {
