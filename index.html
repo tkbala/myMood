@@ -100,9 +100,13 @@
             function othersCheck() {
                 if (document.getElementById(activities[activities.length-1]).checked) {
                     document.getElementById('othersEntry').style.display = 'block';
-                    document.getElementById('othersEntry').focus();
+                    //document.getElementById('othersEntry').focus();
+                    //$('html,body').animate({ scrollTop: $("#othersEntry").offset().top+($("#othersEntry").height()/2.0)},'slow');
+
                 }
                 else document.getElementById('othersEntry').style.display = 'none';
+
+                window.scrollTo(0,document.body.scrollHeight);
 
             }
          
