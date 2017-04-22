@@ -85,3 +85,41 @@
     transform: scale(1);
   }
 }
+
+#othersEntry {
+    display: flex;              
+    flex-direction: column;     
+    justify-content: center;    
+    align-items: center;       
+    
+}
+
+.othersInput {
+    width: 300px;
+    margin: 5px;
+    text-align: center;
+}
+#othersName{
+  font-size: 150%;
+}
+
+#othersName::-webkit-input-placeholder {
+    color: #dddddd;
+    
+}
+
+
+.element::-moz-placeholder {
+ color: #dddddd;
+    
+}
+
+.element:-ms-input-placeholder {
+    color: #dddddd;
+    
+} 
+
+.element:-o-input-placeholder {
+    color: #dddddd;
+    
+} 
