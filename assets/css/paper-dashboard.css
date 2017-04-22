@@ -437,8 +437,8 @@ hr {
   font-size: 14px;
   font-weight: 500;
   padding: 7px 18px;
-  border-color: #66615B;
-  color: #66615B;
+  border-color: #7ac29a;
+  color: #7ac29a;
   -webkit-transition: all 150ms linear;
   -moz-transition: all 150ms linear;
   -o-transition: all 150ms linear;
@@ -450,9 +450,9 @@ hr {
   .navbar .navbar-nav > li > a.btn:active,
   .navbar .navbar-nav > li > a.btn.active, .open >
   .navbar .navbar-nav > li > a.btn.dropdown-toggle {
-    background-color: #66615B;
+    background-color: #7ac29a;
     color: rgba(255, 255, 255, 0.7);
-    border-color: #66615B; }
+    border-color: #7ac29a; }
     .btn:hover .caret, .btn:focus .caret, .btn:active .caret, .btn.active .caret, .open > .btn.dropdown-toggle .caret,
     .navbar .navbar-nav > li > a.btn:hover .caret,
     .navbar .navbar-nav > li > a.btn:focus .caret,

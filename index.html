@@ -65,7 +65,8 @@
         var emoNames = ['Depressed','Excited','Happy','Neutral','Relaxed','Sad','Shocked','Stressed','Tired'];
     var activities = ['study','work','cook','photography','gym','social','gaming','date','other'];
                 var actNames = activities; 
-                var activitySize = 9;   
+                var activitySize = 9;  
+                var scr_flag = 0; 
      
      /*   
      function writeEmoGrid(){
@@ -104,13 +105,18 @@
                 if (document.getElementById(activities[activities.length-1]).checked) {
                     document.getElementById('othersEntry').style.display = 'block';
                     //document.getElementById('othersEntry').focus();
-                    //$('html,body').animate({ scrollTop: $("#othersEntry").offset().top+($("#othersEntry").height()/2.0)},'slow');
-                    
+                    if(scr_flag==0){
+                    $("#MainPanel").animate({ scrollTop: $("#othersEntry").offset().top+($("#othersEntry").height()/2.0)},'slow');}
+                    scr_flag = 1;
+
 
                 }
-                else document.getElementById('othersEntry').style.display = 'none';
+                else {
+                    document.getElementById('othersEntry').style.display = 'none';
+                    scr_flag=0;
+                }
 
-                window.scrollTo(0,document.body.scrollHeight);
+                //window.scrollTo(0,document.body.scrollHeight);
 
             }
          
@@ -182,7 +188,7 @@
     	</div>
     </div>
 
-    <div class="main-panel">
+    <div class="main-panel" id="MainPanel">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -308,6 +314,9 @@
                         
                 </div>
             </div>
+<div align="center" style="margin:20px;">
+              <button type="button" class="btn" align="center"><h5>Add Entry</h5></button>
+          </div>
         </div>
 
 
