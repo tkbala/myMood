@@ -24,6 +24,28 @@
 
 <link href="assets/css/myMood.css" rel="stylesheet"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+<script>
+/*
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB3OUUW_cJn4ORoGN9zxjy_8kA1NtECrpc",
+    authDomain: "mymood-aa7d5.firebaseapp.com",
+    databaseURL: "https://mymood-aa7d5.firebaseio.com",
+    projectId: "mymood-aa7d5",
+    storageBucket: "mymood-aa7d5.appspot.com",
+    messagingSenderId: "1063412675370"
+  };
+  firebase.initializeApp(config);
+  var storage = firebase.storage();
+  var storageRef = storage.ref();
+  var actImgRef = storageRef.child('activitiesImgs');
+  var emoImgRef = storageRef.child('emoImgs');
+  var provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithRedirect(provider);
+  */
+</script>
     
 
 
@@ -33,8 +55,16 @@
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
     <script type="text/javascript">
+    function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+    var emotions = ['depressed','excited','happy','neutral','relaxed','sad','shocked','stressed','tired'];
+        var emoNames = ['Depressed','Excited','Happy','Neutral','Relaxed','Sad','Shocked','Stressed','Tired'];
+    var activities = ['study','work','cook','photography','gym','social','gaming','date','other'];
+                var actNames = activities; 
+                var activitySize = 9;   
      
-
+     /*   
      function writeEmoGrid(){
         var emotionGridHTML = "";
         var emotions = ['depressed','excited','happy','neutral','relaxed','sad','shocked','stressed','tired'];
@@ -44,9 +74,35 @@
                 emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" ></input><label class="animate-emotion '+emotions[j]+'" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+names[j]+'</td></tr></table> ';
             }
         document.getElementById('emoGrid').innerHTML = emotionGridHTML;
+            }; */
+        function writeEmoGrid(){
+        var emotionGridHTML = "";
+        
+        for(j = 0; j < 9; j++){
+                emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" ></input><label class="animate-emotion" style="background-image:url(assets/img/emotions/'+emotions[j]+'.png);" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(emotions[j])+'</td></tr></table> ';
+            }
+        document.getElementById('emoGrid').innerHTML = emotionGridHTML;
+            };
+
+    function writeActivityGrid(){
+                var activityGridHTML = "";
+                
+
+                for(j = 0; j < activitySize; j++){
+                          activityGridHTML=activityGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+activities[j]+'" type="radio" onclick="javascript:othersCheck();" name="activity" value="'+(j+1)+'" ></input><label class="animate-activity" style="background-image:url(assets/img/activities/'+activities[j]+'.png);" for="'+activities[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(activities[j])+'</td></tr></table> ';
+                    }
+                document.getElementById('activityGrid').innerHTML = activityGridHTML;
             };
             window.onload = function(){
                 writeEmoGrid();
+                writeActivityGrid();
+            }
+            function othersCheck() {
+                if (document.getElementById(activities[activities.length-1]).checked) {
+                    document.getElementById('othersEntry').style.display = 'block';
+                }
+                else document.getElementById('othersEntry').style.display = 'none';
+
             }
          
     </script>
@@ -170,16 +226,16 @@
                 <div class = "row">
                     <table style="border-spacing: 10px;">
                         <tr>
-                            <td style="vertical-align:center">
-                    <h3>Date</h3>
+                            <td >
+                    <b style="font-size:1.5em">Date&nbsp;&nbsp;</b>
                 </td>
                 <td style="vertical-align:center">
-                    <input type="date" id="date">
+                    <input style="vertical-align:center" type="date" id="entDate" placeholder="MM/DD/YYYY">
                 </td>
                 </tr>
                 <tr>
-                    <td style="vertical-align:center"><h3>Time</h3></td>
-                    <td style="vertical-align:center"><input type="time" name="time"></td>
+                    <td style="vertical-align:center"><b style="font-size:1.5em">Time&nbsp;&nbsp;</b></td>
+                    <td style="vertical-align:center"><input type="time" name="entTime" placeholder="HH:MM PM"></td>
                 </tr>
             </table>
                 
@@ -224,33 +280,19 @@
                 <div class="row" >
                     <h1 align = "center"> What did you do? </h1>
                 </div>
-                        <div id="emoGrid" class="emotion-selector">
-                            <!--
-                            <table>
-                                <tr>
-                                    <td align = "center"><input id="depressed" type="radio" name="emotion" value="1" ></input>
-                            <label class="animate-emotion depressed" for="depressed"></label></td>
-                                </tr>
-                                <tr><td align="center">Depressed</td></tr>
-                               </table> 
+                        <div id="activityGrid" class="activity-selector">
+
                             
-                            <input id="excited" type="radio" name="emotion" value="2" >Excited</input>
-                            <label class="animate-emotion excited"for="excited"></label>
-                            <input id="happy" type="radio" name="emotion" value="3" >Happy</input>
-                            <label class="animate-emotion happy"for="happy"></label>
-                            <input id="neutral" type="radio" name="emotion" value="4" >Neutral</input>
-                            <label class="animate-emotion neutral"for="neutral"></label>
-                            <input id="relaxed" type="radio" name="emotion" value="5" >Relaxed</input>
-                            <label class="animate-emotion excited"for="relaxed"></label>
-                            <input id="sad" type="radio" name="emotion" value="6" >Sad</input>
-                            <label class="animate-emotion sad"for="sad"></label>
-                            <input id="shocked" type="radio" name="emotion" value="7" >Shocked</input>
-                            <label class="animate-emotion shocked"for="shocked"></label>
-                            <input id="stressed" type="radio" name="emotion" value="8" >Stressed</input>
-                            <label class="animate-emotion stressed"for="stressed"></label>
-                            <input id="tired" type="radio" name="emotion" value="9" >Tired</input>
-                            <label class="animate-emotion tired"for="tired"></label>
-                            -->
+                        </div>
+                        <div id="othersEntry" style="display:none">
+                           
+                                <h1 align="center">What's the new thing you did?</h1>
+                           
+                           <div class="col-lg-3 col-sm-6" style="margin-left: auto; margin-right: auto;">
+                                <input align="center" style="vertical-align:center" id="othersName" placeholder="Enter activity name">
+                        
+                            </div>
+                           
                         </div>
     
                 <div class="col-lg-3 col-sm-6">

@@ -5,7 +5,15 @@
             appearance:none;
 }
 
-
+.depressed{background-image:url(../img/emotions/depressed.png);}
+.excited{background-image:url(../img/emotions/excited.png);}
+.sad{background-image:url(../img/emotions/sad.png);}
+.happy{background-image:url(../img/emotions/happy.png);}
+.neutral{background-image:url(../img/emotions/neutral.png);}
+.relaxed{background-image:url(../img/emotions/relaxed.png);}
+.shocked{background-image:url(../img/emotions/shocked.png);}
+.stressed{background-image:url(../img/emotions/stressed.png);}
+.tired{background-image:url(../img/emotions/tired.png);}
 
 .emotion-selector input:active +.animate-emotion{opacity: .9;}
 .emotion-selector input:checked +.animate-emotion{
@@ -41,7 +49,15 @@
             appearance:none;
 }
 
-
+.depressed{background-image:url(../img/emotions/depressed.png);}
+.excited{background-image:url(../img/emotions/excited.png);}
+.sad{background-image:url(../img/emotions/sad.png);}
+.happy{background-image:url(../img/emotions/happy.png);}
+.neutral{background-image:url(../img/emotions/neutral.png);}
+.relaxed{background-image:url(../img/emotions/relaxed.png);}
+.shocked{background-image:url(../img/emotions/shocked.png);}
+.stressed{background-image:url(../img/emotions/stressed.png);}
+.tired{background-image:url(../img/emotions/tired.png);}
 
 .activity-selector input:active +.animate-activity{opacity: .9;}
 .activity-selector input:checked +.animate-activity{
@@ -70,18 +86,3 @@
 .floatedTable {
             float:left;
         }
-.reveal-if-active {
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transform: scale(0.8);
-  transition: 0.5s;
-  input[type="radio"]:checked ~ &,
-  input[type="checkbox"]:checked ~ & {
-    opacity: 1;
-    max-height: 100px;
-    overflow: visible;
-    padding: 10px 20px;
-    transform: scale(1);
-  }
-}
