@@ -24,8 +24,65 @@
 
 <link href="assets/css/myMood.css" rel="stylesheet"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery.scrollTo.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery.scrollTo.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.45.0.min.js"></script>
+<script>
+AWS.config.region = 'us-west-1';
+function postActivity(){
+    console.log("Entered Post Activity");
+        var pEID = 1;
+        
+        var pMoodID = -1;
+        var pDate = '03/13/1995';
+        var pTime = '02:00';
+        var pActivityName = "Social"
+        var pActID = -1;
+
+        pActID = $("input[name=activity]:checked").val();
+        if(pActID == activitySize){
+            pActivityName = document.getElementById("othersName").value;
+        }
+        else{
+            pActivityName = capitalizeFirstLetter(actNames[$("input[name=activity]:checked").val()-1]);    
+        }
+        
+        pTime = document.getElementById("entTime").value;
+        pDate = document.getElementById("entDate").value;
+        pMoodID = $("input[name=emotion]:checked").val();
+        $.get("https://v5idpy1vl3.execute-api.us-east-1.amazonaws.com/prod/emoteDBUpdate?TableName=emote", function(table, status){            
+            
+            var nItems = table.Items.length;
+            var eIDs = [];
+            for (var i = 0; i <nItems ; i++) {
+                eIDs.push(parseInt(table.Items[i].EID));
+
+            };
+            var temp_UID = 1;
+            while(($.inArray(temp_UID, eIDs)!=-1)||(temp_UID==1) ){
+              temp_UID = Math.floor(Math.random() * 200);
+              
+            }
+            pEID = temp_UID;
+            //console.log("Got pEID = "+pEID);
+            
+            $.ajax({
+
+                url: 'https://v5idpy1vl3.execute-api.us-east-1.amazonaws.com/prod/emoteDBUpdate?TableName=emote',
+                type: 'POST',
+                data: JSON.stringify({"TableName": "emote", "Item": {"EID": pEID, "Activity": pActivityName,"Date": pDate,"MoodID": pMoodID, "Time":pTime, "ActID":pActID}}),
+                success: function(data) {
+                alert("Activity added successfully :-)");
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                alert("Error");
+                }
+            });
+            //console.log("After AJAX on postActivity");
+
+        });
+
+};
+</script>
+
 
 
 <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
@@ -83,7 +140,7 @@
         var emotionGridHTML = "";
         
         for(j = 0; j < 9; j++){
-                emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" ></input><label class="animate-emotion" style="background-image:url(assets/img/emotions/'+emotions[j]+'.png);" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(emotions[j])+'</td></tr></table> ';
+                emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" required></input><label class="animate-emotion" style="background-image:url(assets/img/emotions/'+emotions[j]+'.png);" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(emotions[j])+'</td></tr></table> ';
             }
         document.getElementById('emoGrid').innerHTML = emotionGridHTML;
             };
@@ -93,7 +150,7 @@
                 
 
                 for(j = 0; j < activitySize; j++){
-                          activityGridHTML=activityGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+activities[j]+'" type="radio" onclick="javascript:othersCheck();" name="activity" value="'+(j+1)+'" ></input><label class="animate-activity" style="background-image:url(assets/img/activities/'+activities[j]+'.png);" for="'+activities[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(activities[j])+'</td></tr></table> ';
+                          activityGridHTML=activityGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+activities[j]+'" type="radio" onclick="javascript:othersCheck();" name="activity" value="'+(j+1)+'" required></input><label class="animate-activity" style="background-image:url(assets/img/activities/'+activities[j]+'.png);" for="'+activities[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(activities[j])+'</td></tr></table> ';
                     }
                 document.getElementById('activityGrid').innerHTML = activityGridHTML;
             };
@@ -104,15 +161,17 @@
             function othersCheck() {
                 if (document.getElementById(activities[activities.length-1]).checked) {
                     document.getElementById('othersEntry').style.display = 'block';
+                    document.getElementById("othersName").required = true;
                     //document.getElementById('othersEntry').focus();
                     if(scr_flag==0){
-                    $("#MainPanel").animate({ scrollTop: $("#othersEntry").offset().top+($("#othersEntry").height()/2.0)},'slow');}
+                    $("#MainPanel").animate({ scrollTop: $("#AddBtn").offset().top},'slow');}
                     scr_flag = 1;
 
 
                 }
                 else {
                     document.getElementById('othersEntry').style.display = 'none';
+                    document.getElementById("othersName").required = false;
                     scr_flag=0;
                 }
 
@@ -120,6 +179,19 @@
 
             }
          
+    </script>
+    <script type="text/javascript">
+    function showPage(pageID) {
+                pages = document.getElementsByClassName("emoPage");
+                for(j = 0; j < pages.length; j++){
+                    if(pages[j].id == pageID){
+                        document.getElementById(pageID).style.display = 'block';
+                    }
+                    else{
+                        document.getElementById(pages[j].id).style.display = 'none';
+                    }
+                }
+            }
     </script>
 
 </head>
@@ -142,9 +214,9 @@
 
             <ul class="nav">
                 <li class="active">
-                    <a href="index.html">
-                        <i class="ti-panel"></i>
-                        <p>Dashboard</p>
+                    <a onclick="showPage('AddEntry')">
+                        <i class="fa fa-plus-square-o" ></i>
+                        <p>Add Entry</p>
                     </a>
                 </li>
                 <li>
@@ -236,87 +308,61 @@
         </nav>
 
 
-        <div class="content" id="Master">
-            <div class="container-fluid" id="AddEmotion">
-                <div class = "row">
-                    <table style="border-spacing: 10px;">
-                        <tr>
-                            <td >
-                    <b style="font-size:1.5em">Date&nbsp;&nbsp;</b>
-                </td>
-                <td style="vertical-align:center">
-                    <input style="vertical-align:center" type="date" id="entDate" placeholder="MM/DD/YYYY">
-                </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:center"><b style="font-size:1.5em">Time&nbsp;&nbsp;</b></td>
-                    <td style="vertical-align:center"><input type="time" name="entTime" placeholder="HH:MM PM"></td>
-                </tr>
-            </table>
+        <div class="content emoPage" id="AddEntry">
+            <form action="javascript:void(0);" onsubmit="postActivity()">
+                <div class="container-fluid" id="AddEmotion">
+                    <div class = "row">
+                        <table style="border-spacing: 10px;">
+                            <tr>
+                                <td >
+                                    <b style="font-size:1.5em">Date&nbsp;&nbsp;</b>
+                                </td>
+                                <td style="vertical-align:center">
+                                    <input style="vertical-align:center" type="date" id="entDate" placeholder="MM/DD/YYYY" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:center"><b style="font-size:1.5em">Time&nbsp;&nbsp;</b></td>
+                                <td style="vertical-align:center"><input type="time" id="entTime" placeholder="HH:MM PM" required></td>
+                            </tr>
+                        </table>
+                
+                    </div>
+                    <div class="row" >
+                        <h1 align = "center"> How are You? </h1>
+                    </div>
+                    <div id="emoGrid" class="emotion-selector">
+                            
+                    </div>
+    
                 
                 </div>
-                <div class="row" >
-                    <h1 align = "center"> How are You? </h1>
-                </div>
-                        <div id="emoGrid" class="emotion-selector">
-                            <!--
-                            <table>
-                                <tr>
-                                    <td align = "center"><input id="depressed" type="radio" name="emotion" value="1" ></input>
-                            <label class="animate-emotion depressed" for="depressed"></label></td>
-                                </tr>
-                                <tr><td align="center">Depressed</td></tr>
-                               </table> 
-                            
-                            <input id="excited" type="radio" name="emotion" value="2" >Excited</input>
-                            <label class="animate-emotion excited"for="excited"></label>
-                            <input id="happy" type="radio" name="emotion" value="3" >Happy</input>
-                            <label class="animate-emotion happy"for="happy"></label>
-                            <input id="neutral" type="radio" name="emotion" value="4" >Neutral</input>
-                            <label class="animate-emotion neutral"for="neutral"></label>
-                            <input id="relaxed" type="radio" name="emotion" value="5" >Relaxed</input>
-                            <label class="animate-emotion excited"for="relaxed"></label>
-                            <input id="sad" type="radio" name="emotion" value="6" >Sad</input>
-                            <label class="animate-emotion sad"for="sad"></label>
-                            <input id="shocked" type="radio" name="emotion" value="7" >Shocked</input>
-                            <label class="animate-emotion shocked"for="shocked"></label>
-                            <input id="stressed" type="radio" name="emotion" value="8" >Stressed</input>
-                            <label class="animate-emotion stressed"for="stressed"></label>
-                            <input id="tired" type="radio" name="emotion" value="9" >Tired</input>
-                            <label class="animate-emotion tired"for="tired"></label>
-                            -->
-                        </div>
-    
-                <div class="col-lg-3 col-sm-6">
-                        
-                </div>
-            </div>
             <div class="container-fluid" id="AddActivity">
                 <div class="row" >
                     <h1 align = "center"> What did you do? </h1>
                 </div>
-                        <div id="activityGrid" class="activity-selector">
+                <div id="activityGrid" class="activity-selector">
 
-                            
-                        </div>
-                        <div id="othersEntry" style="display:none">
-                           
-                                <h1 align="center">What's the new thing you did?</h1>
-                           
-                           <div class="othersInput" style="margin-left: auto; margin-right: auto;">
-                                <input align="center" style="vertical-align:center" id="othersName" placeholder="Enter activity name">
-                        
-                            </div>
-                           
-                        </div>
-    
-                <div class="col-lg-3 col-sm-6">
-                        
+                    
+                </div>
+                <div id="othersEntry" style="display:none">
+                   
+                        <h1 align="center">What's the new thing you did?</h1>
+                   
+                   <div class="othersInput" style="margin-left: auto; margin-right: auto;">
+                        <input align="center" style="vertical-align:center" id="othersName" placeholder="Enter activity name">
+                
+                    </div>
+                   
                 </div>
             </div>
-<div align="center" style="margin:20px;">
-              <button type="button" class="btn" align="center"><h5>Add Entry</h5></button>
-          </div>
+            <div align="center" id="AddBtn" style="margin:20px;">
+                <input type="submit" class="btn"/>
+              
+              <!-- <button type="submit" class="btn" align="center" ><h5>Add Entry</h5></button>
+                -->
+            </div>
+          </form>
         </div>
 
 
