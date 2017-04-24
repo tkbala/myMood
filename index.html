@@ -25,6 +25,7 @@
 <link href="assets/css/myMood.css" rel="stylesheet"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.45.0.min.js"></script>
+<script src="assets/js/Chart.js"></script>
 <script>
 AWS.config.region = 'us-west-1';
 function postActivity(){
@@ -85,26 +86,68 @@ function postActivity(){
 
 
 
-<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+
 <script>
-/*
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyB3OUUW_cJn4ORoGN9zxjy_8kA1NtECrpc",
-    authDomain: "mymood-aa7d5.firebaseapp.com",
-    databaseURL: "https://mymood-aa7d5.firebaseio.com",
-    projectId: "mymood-aa7d5",
-    storageBucket: "mymood-aa7d5.appspot.com",
-    messagingSenderId: "1063412675370"
-  };
-  firebase.initializeApp(config);
-  var storage = firebase.storage();
-  var storageRef = storage.ref();
-  var actImgRef = storageRef.child('activitiesImgs');
-  var emoImgRef = storageRef.child('emoImgs');
-  var provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithRedirect(provider);
-  */
+var panelTypes = ["panel-default", "panel-primary", "panel-success","panel-info", "panel-warning", "panel-danger"];
+var debugVar;
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+function dateToDBStr(inp){
+
+    var dd = inp.getDate();
+    var mm = inp.getMonth()+1; //January is 0!
+
+    var yyyy = inp.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    return(yyyy+'-'+mm+'-'+dd);
+
+}    
+
+function populateRecent(){
+    $.get("https://v5idpy1vl3.execute-api.us-east-1.amazonaws.com/prod/emoteDBUpdate?TableName=emote", function(table, status){            
+            var nItems = table.Items.length;
+            //table.Items[i].ImageLink
+
+     //       sortByKey(sortByKey(table.Items,"Date").filter(function(v){ return v["Date"] == "2017-04-12"; }),"Time");
+
+            var todayDate = new Date();
+            var getFromDate = new Date(2017,03,16) // 03 means month 04 
+            var inht = 0;
+            var recentEntriesHTML="";
+            for (var d = getFromDate; d <= todayDate; d.setDate(d.getDate() + 1)) {
+                recentEntriesHTML = recentEntriesHTML + "<div class='panel "+panelTypes[inht%6]+" '> <div class='panel-heading'>"+d.toDateString()+" </div><div class='panel-body'><div class='table-responsive'><table class='table' style='width:100%'>";
+                var dayEntries =  sortByKey(sortByKey(table.Items,"Date").filter(function(v){ return v["Date"] == dateToDBStr(d); }),"Time");   
+                for(i=0;i<dayEntries.length;i++){
+                    recentEntriesHTML = recentEntriesHTML+"<tr><td>"+dayEntries[i].Time+" Hrs &nbsp; &nbsp;</td><td> <img src='assets/img/emotions/"+emotions[dayEntries[i].MoodID-1]+".png' style='width:50px;height:50px;'/>";
+                    recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(emotions[dayEntries[i].MoodID-1])+" &nbsp;&nbsp; </td>";
+                    recentEntriesHTML = recentEntriesHTML + "<td> <img src='assets/img/activities/"+activities[dayEntries[i].ActID-1]+".png' style='width:50px;height:50px;'/>";
+                    recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(dayEntries[i].Activity);
+                    //console.log("<img src='assets/img/emotions/'"+emotions[dayEntries[i].MoodID]+"'.png'/>");
+                    recentEntriesHTML = recentEntriesHTML+"</td></tr>";
+
+                }
+                if (dayEntries.length == 0){
+                    recentEntriesHTML=recentEntriesHTML+"No Activities recorded for this day";
+                }
+                debugVar = dayEntries;
+                inht=inht+1;
+                recentEntriesHTML=recentEntriesHTML+"</table></div></div></div>";
+            }
+            document.getElementById("recentEntriesPanel").innerHTML=recentEntriesHTML;
+            });
+   // a = $.get("https://v5idpy1vl3.execute-api.us-east-1.amazonaws.com/prod/emoteDBUpdate?TableName=emote");
+   // sortByKey(a.responseJSON["Items"],"Date").filter(function(v){ return v["Date"] == "2017-04-12"; });
+    
+}
 </script>
     
 
@@ -157,6 +200,7 @@ function postActivity(){
             window.onload = function(){
                 writeEmoGrid();
                 writeActivityGrid();
+                populateRecent();
             }
             function othersCheck() {
                 if (document.getElementById(activities[activities.length-1]).checked) {
@@ -192,7 +236,10 @@ function postActivity(){
                     }
                 }
             }
+    
     </script>
+    
+    
 
 </head>
 <body>
@@ -213,48 +260,31 @@ function postActivity(){
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a onclick="showPage('AddEntry')">
                         <i class="fa fa-plus-square-o" ></i>
                         <p>Add Entry</p>
                     </a>
                 </li>
                 <li>
-                    <a href="user.html">
-                        <i class="ti-user"></i>
-                        <p>User Profile</p>
+                    <a onclick="showPage('ShowStats')">
+                        <i class="ti-panel"></i>
+                        <p>Statistics</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a onclick="showPage('RecentEntries')">
                         <i class="ti-view-list-alt"></i>
-                        <p>Table List</p>
+                        <p>Recent Entries</p>
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
+                    <a onclick="showPage('Settings')">
                         <i class="ti-text"></i>
-                        <p>Typography</p>
+                        <p>Settings</p>
                     </a>
                 </li>
-                <li>
-                    <a href="icons.html">
-                        <i class="ti-pencil-alt2"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="maps.html">
-                        <i class="ti-map"></i>
-                        <p>Maps</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="notifications.html">
-                        <i class="ti-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
+                
 				
             </ul>
     	</div>
@@ -363,6 +393,26 @@ function postActivity(){
                 -->
             </div>
           </form>
+        </div>
+        <div class="content emoPage" id="ShowStats">
+                <div class="container-fluid" >
+                    <h1 align = "center"> Statistics </h1>
+                    <canvas id="myChart" width="400" height="400" align="center"></canvas>
+                </div>
+        </div>
+        <div class="content emoPage" id="RecentEntries">
+                <div class="container-fluid" >
+                    <h1 align = "center"> Recent Entries </h1>
+
+                    <div id="recentEntriesPanel">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Panel with panel-default class</div>
+                            <div class="panel-body">Panel Content<hr>Again?</div>
+
+                        </div>
+                    </div>
+                    
+                </div>
         </div>
 
 
