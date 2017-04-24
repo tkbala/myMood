@@ -120,17 +120,16 @@ function populateRecent(){
      //       sortByKey(sortByKey(table.Items,"Date").filter(function(v){ return v["Date"] == "2017-04-12"; }),"Time");
 
             var todayDate = new Date();
-            //var getFromDate = new Date(2017,03,16) // 03 means month 04 
-            var getFromDate = new Date("2017-03-16PDT");
+            var getFromDate = new Date(2017,03,16) // 03 means month 04 
             var inht = 0;
             var recentEntriesHTML="";
-            //for (var d = getFromDate; d <= todayDate; d.setDate(d.getDate() + 1)) {
-            for (var d = todayDate; d >= getFromDate; d.setDate(d.getDate() - 1)) {
+            for (var d = getFromDate; d <= todayDate; d.setDate(d.getDate() + 1)) {
+                
                 recentEntriesHTML = recentEntriesHTML + "<div class='panel "+panelTypes[inht%6]+" '> <div class='panel-heading'>"+d.toDateString()+" </div><div class='panel-body'><div class='table-responsive'><table class='table' style='width:100%'>";
                 var dayEntries =  sortByKey(sortByKey(table.Items,"Date").filter(function(v){ return v["Date"] == dateToDBStr(d); }),"Time");   
                 for(i=0;i<dayEntries.length;i++){
-                    recentEntriesHTML = recentEntriesHTML+"<tr><td>"+dayEntries[i].Time+" Hrs </td><td> <img src='assets/img/emotions/"+emotions[dayEntries[i].MoodID-1]+".png' style='width:50px;height:50px;'/>";
-                    recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(emotions[dayEntries[i].MoodID-1])+"  </td>";
+                    recentEntriesHTML = recentEntriesHTML+"<tr><td>"+dayEntries[i].Time+" Hrs &nbsp; &nbsp;</td><td> <img src='assets/img/emotions/"+emotions[dayEntries[i].MoodID-1]+".png' style='width:50px;height:50px;'/>";
+                    recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(emotions[dayEntries[i].MoodID-1])+" &nbsp;&nbsp; </td>";
                     recentEntriesHTML = recentEntriesHTML + "<td> <img src='assets/img/activities/"+activities[dayEntries[i].ActID-1]+".png' style='width:50px;height:50px;'/>";
                     recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(dayEntries[i].Activity);
                     //console.log("<img src='assets/img/emotions/'"+emotions[dayEntries[i].MoodID]+"'.png'/>");
@@ -143,26 +142,6 @@ function populateRecent(){
                 debugVar = dayEntries;
                 inht=inht+1;
                 recentEntriesHTML=recentEntriesHTML+"</table></div></div></div>";
-                /*
-                recentEntriesHTML = recentEntriesHTML + "<div class='panel "+panelTypes[inht%6]+" '> <div class='panel-heading'>"+d.toDateString()+" </div><div class='panel-body'>";
-                var dayEntries =  sortByKey(sortByKey(table.Items,"Date").filter(function(v){ return v["Date"] == dateToDBStr(d); }),"Time");   
-                for(i=0;i<dayEntries.length;i++){
-                    recentEntriesHTML = recentEntriesHTML+"<div class = 'row'> <div class='col-md-2'> "+dayEntries[i].Time+" Hrs &nbsp; &nbsp;</div><div class='col-md-5'> <img src='assets/img/emotions/"+emotions[dayEntries[i].MoodID-1]+".png' style='width:50px;height:50px;'/>";
-                    recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(emotions[dayEntries[i].MoodID-1])+" &nbsp;&nbsp; </div>";
-                    recentEntriesHTML = recentEntriesHTML + "<div class='col-md-5'> <img src='assets/img/activities/"+activities[dayEntries[i].ActID-1]+".png' style='width:50px;height:50px;'/>";
-                    recentEntriesHTML = recentEntriesHTML+" - "+capitalizeFirstLetter(dayEntries[i].Activity);
-                    //console.log("<img src='assets/img/emotions/'"+emotions[dayEntries[i].MoodID]+"'.png'/>");
-                    recentEntriesHTML = recentEntriesHTML+"</div><hr></div>";
-
-                }
-                */
-                if (dayEntries.length == 0){
-                    recentEntriesHTML=recentEntriesHTML+"No Activities recorded for this day";
-                }
-                debugVar = dayEntries;
-                inht=inht+1;
-                recentEntriesHTML=recentEntriesHTML+"</div></div>";
-
             }
             document.getElementById("recentEntriesPanel").innerHTML=recentEntriesHTML;
             });
@@ -223,8 +202,7 @@ function populateRecent(){
                 writeEmoGrid();
                 writeActivityGrid();
                 populateRecent();
-                //var chartFromDate = new Date(2017,03,16);
-                var chartFromDate = new Date("2017-03-16PDT");
+                var chartFromDate = new Date(2017,03,16);
                 var chartToDate = new Date();
                 calcStat(chartFromDate,chartToDate);
             }
@@ -251,7 +229,7 @@ function populateRecent(){
          
     </script>
     <script type="text/javascript">
-    function showPage(pageID, actionID) {
+    function showPage(pageID) {
                 pages = document.getElementsByClassName("emoPage");
                 for(j = 0; j < pages.length; j++){
                     if(pages[j].id == pageID){
@@ -261,40 +239,14 @@ function populateRecent(){
                         document.getElementById(pages[j].id).style.display = 'none';
                     }
                 }
-                if(actionID == 1){
-                    //var chartFromDate = new Date(2017,03,16);
-                    var chartFromDate = new Date("2017-03-16PDT");
-                    var chartToDate = new Date();
-                    calcStat(chartFromDate,chartToDate);
-                }
-                else if(actionID == 2){
-                    populateRecent();
-                }
-                else if(actionID == 4){
-                    loadTable();
-                }
             }
     
     </script>
     <script type="text/javascript">
-            var resetCanvas = function () {
-          $('#actStatChart').remove(); // this is my <canvas> element
-          $('#emoStatChart').remove(); // this is my <canvas> element
-          $('#act-chart-container').append('<canvas id="actStatChart"  align="center"></canvas> ');
-          $('#emo-chart-container').append('<canvas id="emoStatChart"  align="center"></canvas> ');
-          
-        };
-    function showStats(){
-        resetCanvas();
-        var chartFromDate = new Date(document.getElementById("chartFromDate").value+"PDT");
-        var chartToDate = new Date(document.getElementById("chartToDate").value+"PDT");
-        calcStat(chartFromDate,chartToDate);
-    }
     function calcStat(chartFromDate, chartToDate){
         var pie_colors = ["#FF0000", "#008000", "#0000FF", "#FFFF00", "#800000", "#808000", "#00FFFF", "#000080", "#800080", "#00FF00", "#008080", "#FF00FF"];
         var actx = document.getElementById("actStatChart");
         var emox = document.getElementById("emoStatChart");
-        document.getElementById("statsHeaderInfo").innerHTML = "<p style='font-size:80%' align='center'>Showing Stats from "+chartFromDate.toDateString()+" to "+chartToDate.toDateString()+"</p>";
         var emoChartData = {
               labels: [
                     
@@ -387,69 +339,6 @@ function populateRecent(){
         });
     }
     </script>
-    <script type="text/javascript">
-        function queryTable() {
-  // Declare variables 
-          var input, filter, table, tr, td, i;
-          input = document.getElementById("queryInput");
-          filter = input.value.toUpperCase();
-          table = document.getElementById("entryTable");
-          tr = table.getElementsByTagName("tr");
-
-          // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByClassName("rowSearch");
-            sflag = 0;
-            for(j=0; j<td.length; j++)
-            {
-                if (td[j]) {
-                  if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                    sflag = 1;
-                  } 
-                }
-            }
-            if(sflag==0) {
-                    tr[i].style.display = "none";
-                  } 
-        }
-    }
-    function loadTable(){
-             //var tableHTML = '<input type="text" id="queryInput" onkeyup="queryTable()" placeholder="Search for recipes.."> ';    
-             var tableHTML = "";
-             $.get("https://v5idpy1vl3.execute-api.us-east-1.amazonaws.com/prod/emoteDBUpdate?TableName=emote", function(table, status){            
-            var nItems = table.Items.length;
-            
-            
-            tableHTML = tableHTML + "<div class='panel panel-info'> <div class='panel-heading'>";
-            tableHTML = tableHTML+" </div><div class='panel-body'><div class='table-responsive'><table id='entryTable' class='table' style='width:100%'>";
-            tableHTML = tableHTML+"<th>Date</th> <th>Time</th> <th></th> <th>Mood</th><th></th><th>Activity</th>";
-            var tableEntries =  sortByKey(table.Items,"Date");
-            for (var i = nItems-1; i >=0; i--) {
-                //d.toDateString()
-                    var datItem = new Date(table.Items[i].Date+"PDT");
-                    debugVar = table.Items;
-                    tableHTML = tableHTML+"<tr><td class='rowSearch'>"+datItem.toDateString()+"</td> <td class='rowSearch'>"+table.Items[i].Time+" Hrs</td> <td> <img src='assets/img/emotions/"+emotions[table.Items[i].MoodID-1]+".png' style='width:50px;height:50px;'/>";
-                    tableHTML = tableHTML+"</td><td class='rowSearch'>"+capitalizeFirstLetter(emotions[table.Items[i].MoodID-1])+"  </td>";
-                    tableHTML = tableHTML + "<td> <img src='assets/img/activities/"+activities[table.Items[i].ActID-1]+".png' style='width:50px;height:50px;'/>";
-                    tableHTML = tableHTML+"</td><td class='rowSearch'>"+capitalizeFirstLetter(table.Items[i].Activity);
-                    //console.log("<img src='assets/img/emotions/'"+emotions[dayEntries[i].MoodID]+"'.png'/>");
-                    tableHTML = tableHTML+"</td></tr>";
-
-                }
-                
-                tableHTML=tableHTML+"</table></div></div></div>";
-               
-                //recentEntriesHTML=recentEntriesHTML+"</div></div>";
-            document.getElementById('actSearchTable').innerHTML = tableHTML;
-
-
-            
-            });
-
-    };
-
-    </script>
     
     
 
@@ -473,32 +362,26 @@ function populateRecent(){
 
             <ul class="nav">
                 <li>
-                    <a onclick="showPage('AddEntry',0)">
+                    <a onclick="showPage('AddEntry')">
                         <i class="fa fa-plus-square-o" ></i>
                         <p>Add Entry</p>
                     </a>
                 </li>
                 <li>
-                    <a onclick="showPage('ShowStats',1)">
+                    <a onclick="showPage('ShowStats')">
                         <i class="ti-panel"></i>
                         <p>Statistics</p>
                     </a>
                 </li>
                 <li>
-                    <a onclick="showPage('RecentEntries',2)">
+                    <a onclick="showPage('RecentEntries')">
                         <i class="ti-view-list-alt"></i>
                         <p>Recent Entries</p>
                     </a>
                 </li>
                 <li>
-                    <a onclick="showPage('SearchEntries',4)">
-                        <i class="fa fa-search" ></i>
-                        <p>Search Entries</p>
-                    </a>
-                </li>
-                <li>
-                    <a onclick="showPage('Settings',5)">
-                        <i class="ti-settings"></i>
+                    <a onclick="showPage('Settings')">
+                        <i class="ti-text"></i>
                         <p>Settings</p>
                     </a>
                 </li>
@@ -520,7 +403,38 @@ function populateRecent(){
                     </button>
                     <a class="navbar-brand" href="#">Dashboard</a>
                 </div>
-                
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-panel"></i>
+								<p>Stats</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-bell"></i>
+                                    <p class="notification">5</p>
+									<p>Notifications</p>
+									<b class="caret"></b>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">Notification 1</a></li>
+                                <li><a href="#">Notification 2</a></li>
+                                <li><a href="#">Notification 3</a></li>
+                                <li><a href="#">Notification 4</a></li>
+                                <li><a href="#">Another notification</a></li>
+                              </ul>
+                        </li>
+						<li>
+                            <a href="#">
+								<i class="ti-settings"></i>
+								<p>Settings</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
             </div>
         </nav>
 
@@ -528,7 +442,6 @@ function populateRecent(){
         <div class="content emoPage" id="AddEntry">
             <form action="javascript:void(0);" onsubmit="postActivity()">
                 <div class="container-fluid" id="AddEmotion">
-                    <h1 align="center">Add Entry</h1>
                     <div class = "row">
                         <table style="border-spacing: 10px;">
                             <tr>
@@ -547,7 +460,7 @@ function populateRecent(){
                 
                     </div>
                     <div class="row" >
-                        <h2 align = "center"> How are You? </h2>
+                        <h1 align = "center"> How are You? </h1>
                     </div>
                     <div id="emoGrid" class="emotion-selector">
                             
@@ -557,7 +470,7 @@ function populateRecent(){
                 </div>
             <div class="container-fluid" id="AddActivity">
                 <div class="row" >
-                    <h2 align = "center"> What did you do? </h2>
+                    <h1 align = "center"> What did you do? </h1>
                 </div>
                 <div id="activityGrid" class="activity-selector">
 
@@ -565,7 +478,7 @@ function populateRecent(){
                 </div>
                 <div id="othersEntry" style="display:none">
                    
-                        <h2 align="center">What's the new thing you did?</h2>
+                        <h1 align="center">What's the new thing you did?</h1>
                    
                    <div class="othersInput" style="margin-left: auto; margin-right: auto;">
                         <input align="center" style="vertical-align:center" id="othersName" placeholder="Enter activity name">
@@ -585,28 +498,13 @@ function populateRecent(){
         <div class="content emoPage" id="ShowStats">
                 <div class="container-fluid" >
                     <h1 align = "center"> Statistics </h1>
-                    <div class="row" style="margin-bottom: 4em;">
-                        <div class = "col-md-6" align="center">
-                         <b style="font-size:1.5em">From :&nbsp;&nbsp;</b><input style="vertical-align:center" type="date" id="chartFromDate" placeholder="MM/DD/YYYY" >
-                     </div>
-                     <div class = "col-md-6" align="center">
-                         <b style="font-size:1.5em">To :&nbsp;&nbsp;</b><input style="vertical-align:center" type="date" id="chartToDate" placeholder="MM/DD/YYYY" required>
-                     </div>
-                    </div>
-                    <div class="row" align="center" style="margin-bottom: 4em;">
-                        <button  class="btn" align="center" onclick="showStats()" ><h5>Show Stats</h5></button>
-                    </div>
-                    <div class="row" align="center" style="margin-bottom: 4em;">
-                        <h2 id="statsHeaderInfo"></h2>
-                    </div>
-                    <div  class="row" align="center">
-                        <div id= "act-chart-container" class = "col-md-6" align = "center">
-                            <canvas id="actStatChart"  align="center"></canvas> 
-                        </div>
-                        <div id= "emo-chart-container" class = "col-md-6" align = "center">
-                            <canvas id="emoStatChart" align="center"></canvas>
-                        </div>
-                    </div>
+                    <div class = "col-md-4">
+                    <canvas id="actStatChart"  align="center"></canvas> 
+                </div>
+                <div class = "col-md-4">
+                    <canvas id="emoStatChart" align="center"></canvas>
+                </div>
+                
                 </div>
         </div>
         <div class="content emoPage" id="RecentEntries">
@@ -620,21 +518,6 @@ function populateRecent(){
 
                         </div>
                     </div>
-                    
-                </div>
-        </div>
-        <div class="content emoPage" id="SearchEntries">
-                <div class="container-fluid" >
-                    <h1 align = "center"> Search Entries </h1>
-                    <div class="form-group">
-                     <input type="text" style="width:100%" id="queryInput" onkeyup="queryTable()" placeholder="Search for entries... You can enter day, activity name, mood, time e.g. Sun, Work, 21:00 ...">
-                     <br>
-                     </div>
-                    <div  id = "actSearchTable" style="overflow-y:scroll; display:block;height:90%;">
-                        
-                    </div>
-
-                    
                     
                 </div>
         </div>
