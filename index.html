@@ -227,6 +227,7 @@ function populateRecent(){
                 var chartFromDate = new Date("2017-03-16PDT");
                 var chartToDate = new Date();
                 calcStat(chartFromDate,chartToDate);
+                showPage('AddEntry',0);
             }
             function othersCheck() {
                 if (document.getElementById(activities[activities.length-1]).checked) {
@@ -497,7 +498,7 @@ function populateRecent(){
                     </a>
                 </li>
                 <li>
-                    <a onclick="showPage('Settings',5)">
+                    <a onclick="showPage('SettingsPage',5)">
                         <i class="ti-settings"></i>
                         <p>Settings</p>
                     </a>
@@ -633,6 +634,200 @@ function populateRecent(){
                     <div  id = "actSearchTable" style="overflow-y:scroll; display:block;height:90%;">
                         
                     </div>
+
+                    
+                    
+                </div>
+        </div>
+        <div class="content emoPage" id="SettingsPage">
+                <div class="container-fluid" >
+                    
+                    <div class="row">
+                   
+                    
+                        </div>
+
+<div class="container">
+
+    
+    <!-- /.row -->
+
+    
+         <div class="col-md-16">
+            
+            </div>
+        
+            <form class="form-basic" >
+            <div class="form-title-row">
+                <h1>Settings</h1>
+            </div>
+            <div class="form-row" align="center" style="width:100%; margin-left:60px; font-size:150%;">
+                <table style="border-spacing:12px; width:100%;">
+                    <tr>
+                        <td>
+                            <span>Reminders</span>        
+                        </td>
+                        <td>
+                            <label class="switch">
+                            <input type="checkbox">
+                            <div class="slider round"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Remind me at &nbsp; &nbsp; </span>        
+                        </td>
+                        <td>
+                            <input type="time" style="width:8em">
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <table style="border-spacing:12px; width:100%;" class="table-hover">
+                    
+                    <tr style="padding-bottom:1em">
+                        <td >
+                            <span>Edit Activity </span>        
+                        </td>
+                     </tr>
+                            
+                    <tr>
+                            <td >
+                            <span>Edit Mood </span>        
+                        </td>
+
+                    </tr>
+                </table>
+                <hr>
+                <table style="border-spacing:12px; width:100%;">
+                    <tr>
+                        <td>
+                            <span>Pin Lock</span>        
+                        </td>
+                        <td>
+                            <label class="switch">
+                            <input type="checkbox">
+                            <div class="slider round"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Set Pin &nbsp; &nbsp;</span>        
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <table style="border-spacing:12px; width:100%;">
+                    <tr>
+                        <td>
+                            <span>Backup</span>        
+                        </td>
+                        <td>
+                            <label class="switch">
+                            <input type="checkbox">
+                            <div class="slider round"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Backup daily at &nbsp; &nbsp; </span>        
+                        </td>
+                        <td>
+                            <input type="time" style="width:8em">
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <table style="border-spacing:12px; width:100%;" class="table-hover">
+                    
+                    <tr style="padding-bottom:1em">
+                        <td >
+                            <span>Backup Now </span>        
+                        </td>
+                     </tr>
+                            
+                    <tr>
+                            <td >
+                            <span>Backup and Restore </span>        
+                        </td>
+
+                    </tr>
+                </table>
+
+
+
+
+                    </label>
+                </table>
+
+            </div>
+           
+    <!-- The elements after this will be ignored -->
+    <!-- <input type="submit" onclick="postRecipe()" name="submit" value="POST Recipe with File" /> -->
+    <button >Save Settings</button>
+  
+                </label>
+            </div>
+        </form>
+       
+        <!--
+            <table>
+            <tr>
+                <td>
+             <p> Recipe Name </p>   
+         </td>
+         <td>
+            <input type="text" id="NameInput" />
+        </td>
+        </tr>
+            <tr>
+                <td>
+                <p> Recipe Ingredients </p>
+            </td>
+            <td>
+            <textarea id="IngredientsInput" rows = "10" ></textarea>
+        </td>
+    </tr>
+            <tr>
+                <td>
+        
+                <p> Recipe Directions </p>
+            </td>
+            <td>
+            <textarea type="text" id="DirectionsInput" rows = "10" ></textarea>
+        </td>
+    </tr>
+    <tr>
+            
+    
+</tr>
+</table>
+        
+    </div>
+
+   <form id="file_upload" action="http://brecipe.s3-us-west-1.amazonaws.com/" method="post" enctype="multipart/form-data">
+    Image of the Recipe:
+    <input type="hidden"  id="fname" name="key" value="123" /><br />
+
+   
+    
+    <input type="hidden"  name="Content-Type" value="image/jpeg" /><br />
+    File: 
+    <input type="file"   name="file" /> <br />
+    
+    
+    <button onclick="postRecipe()" name="btnSubmit" >POST Recipe with File</button>
+  </form>
+-->
+</div>
+<!-- /.container -->
+
+
+
+                </div>
 
                     
                     
