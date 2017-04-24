@@ -59,7 +59,7 @@ function postActivity(){
             };
             var temp_UID = 1;
             while(($.inArray(temp_UID, eIDs)!=-1)||(temp_UID==1) ){
-              temp_UID = Math.floor(Math.random() * 200);
+              temp_UID = Math.floor(Math.random() * 5000);
               
             }
             pEID = temp_UID;
@@ -201,6 +201,9 @@ function populateRecent(){
                 writeEmoGrid();
                 writeActivityGrid();
                 populateRecent();
+                var chartFromDate = new Date(2017,03,16);
+                var chartToDate = new Date();
+                calcStat(chartFromDate,chartToDate);
             }
             function othersCheck() {
                 if (document.getElementById(activities[activities.length-1]).checked) {
@@ -237,6 +240,103 @@ function populateRecent(){
                 }
             }
     
+    </script>
+    <script type="text/javascript">
+    function calcStat(chartFromDate, chartToDate){
+        var pie_colors = ["#FF0000", "#008000", "#0000FF", "#FFFF00", "#800000", "#808000", "#00FFFF", "#000080", "#800080", "#00FF00", "#008080", "#FF00FF"];
+        var actx = document.getElementById("actStatChart");
+        var emox = document.getElementById("emoStatChart");
+        var emoChartData = {
+              labels: [
+                    
+                ],
+                datasets: [
+                    {
+                        data: [],
+                        backgroundColor: [
+                        ],
+                        hoverBackgroundColor: [
+                        ]
+
+                    }
+                    ]
+        };
+        var actChartData = {
+              labels: [
+                    
+                ],
+                datasets: [
+                    {
+                        data: [],
+                        backgroundColor: [
+                        ],
+                        hoverBackgroundColor: [
+                        ]
+
+                    }
+                    ]
+        };
+        //var chartFromDate = new Date(2017,03,16);
+        //var chartToDate = new Date();
+        var actCount = [];
+        var emoCount = [];
+
+        for (var i = 0; i < activitySize; i++) {actCount[i] = 0;}
+        for (var i = 0; i < emotions.length; i++) {emoCount[i] = 0;}
+        $.get("https://v5idpy1vl3.execute-api.us-east-1.amazonaws.com/prod/emoteDBUpdate?TableName=emote", function(table, status){            
+        
+            for (var d = chartFromDate; d <= chartToDate; d.setDate(d.getDate() + 1)) {
+                   
+                    var dayEntries =  sortByKey(sortByKey(table.Items,"Date").filter(function(v){ return v["Date"] == dateToDBStr(d); }),"Time");   
+                    for(i=0;i<dayEntries.length;i++){
+                        //dayEntries[i].Time;
+                        actCount[dayEntries[i].ActID-1] = actCount[dayEntries[i].ActID-1] + 1;
+                        emoCount[dayEntries[i].MoodID-1] = emoCount[dayEntries[i].MoodID-1] +1;
+                    }
+                    
+                    
+                }
+
+            for(var i=0; i < activitySize; i++){
+                actChartData['labels'][i] = capitalizeFirstLetter(activities[i]);
+                actChartData['datasets'][0]['data'][i] = actCount[i];
+                actChartData['datasets'][0]['backgroundColor'][i] = pie_colors[i];
+                actChartData['datasets'][0]['hoverBackgroundColor'][i] = pie_colors[i];
+                emoChartData['labels'][i] = capitalizeFirstLetter(emotions[i]);
+                emoChartData['datasets'][0]['data'][i] = emoCount[i];
+                emoChartData['datasets'][0]['backgroundColor'][i] = pie_colors[i];
+                emoChartData['datasets'][0]['hoverBackgroundColor'][i] = pie_colors[i];
+            }
+            //console.log(actx);
+            var actPieChart = new Chart(actx,{
+                type: 'pie',
+                data: actChartData,
+                options: {
+                    responsive:false,
+                    title: {
+                        display: true,
+                        text: 'Activity Chart',
+                        position: 'bottom',
+                        fontSize: 20
+                    }
+                }    
+            });
+            var emoPieChart = new Chart(emox,{
+                type: 'pie',
+                data: emoChartData,
+                options: {
+                    responsive:false,
+                    title: {
+                        display: true,
+                        text: 'Mood Chart',
+                        position: 'bottom',
+                        fontSize: 20
+                    }
+                }    
+            });
+            
+        });
+    }
     </script>
     
     
@@ -397,7 +497,14 @@ function populateRecent(){
         <div class="content emoPage" id="ShowStats">
                 <div class="container-fluid" >
                     <h1 align = "center"> Statistics </h1>
-                    <canvas id="myChart" width="400" height="400" align="center"></canvas>
+                    <table>
+                        <tr><td>
+                    <canvas id="actStatChart" width="400" height="400" align="center"></canvas> &nbsp;&nbsp;&nbsp; </td>
+
+                <td>
+                    <canvas id="emoStatChart" width="400" height="400" align="center"></canvas>
+                </td>
+                    </table>
                 </div>
         </div>
         <div class="content emoPage" id="RecentEntries">
