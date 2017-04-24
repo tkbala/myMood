@@ -205,7 +205,7 @@ function populateRecent(){
         var emotionGridHTML = "";
         
         for(j = 0; j < 9; j++){
-                emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block; margin:auto;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" required></input><label class="animate-emotion" style="background-image:url(assets/img/emotions/'+emotions[j]+'.png);" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(emotions[j])+'</td></tr></table> ';
+                emotionGridHTML=emotionGridHTML+'<table cellpadding="10" style="display: inline-block;"><tr><td align = "center"><input id="'+emotions[j]+'" type="radio" name="emotion" value="'+(j+1)+'" required></input><label class="animate-emotion" style="background-image:url(assets/img/emotions/'+emotions[j]+'.png);" for="'+emotions[j]+'"></label></td></tr><tr><td align="center">'+capitalizeFirstLetter(emotions[j])+'</td></tr></table> ';
             }
         document.getElementById('emoGrid').innerHTML = emotionGridHTML;
             };
@@ -468,7 +468,7 @@ function populateRecent(){
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="#" class="simple-text">
-                   Menu
+                   myMood
                 </a>
             </div>
 
@@ -519,11 +519,7 @@ function populateRecent(){
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">myMood</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    
-
+                    <a class="navbar-brand" href="#">Dashboard</a>
                 </div>
                 
             </div>
@@ -537,9 +533,8 @@ function populateRecent(){
                 <!-- Post Diabled for safety -->
                 <div class="container-fluid" id="AddEmotion">
                     <h1 align="center">Add Entry</h1>
-                    <hr>
                     <div class = "row">
-                        <table style="margin: auto; border-spacing: 10px;">
+                        <table style="border-spacing: 10px;">
                             <tr>
                                 <td >
                                     <b style="font-size:1.5em">Date&nbsp;&nbsp;</b>
@@ -558,7 +553,7 @@ function populateRecent(){
                     <div class="row" >
                         <h2 align = "center"> How are You? </h2>
                     </div>
-                    <div id="emoGrid" class="emotion-selector" align="center" >
+                    <div id="emoGrid" class="emotion-selector">
                             
                     </div>
     
@@ -568,7 +563,7 @@ function populateRecent(){
                 <div class="row" >
                     <h2 align = "center"> What did you do? </h2>
                 </div>
-                <div id="activityGrid" class="activity-selector" align="center">
+                <div id="activityGrid" class="activity-selector">
 
                     
                 </div>
@@ -577,7 +572,7 @@ function populateRecent(){
                         <h2 align="center">What's the new thing you did?</h2>
                    
                    <div class="othersInput" style="margin-left: auto; margin-right: auto;">
-                        <input align="center" style="vertical-align:center; text-align:center;" id="othersName" placeholder="Enter activity name">
+                        <input align="center" style="vertical-align:center" id="othersName" placeholder="Enter activity name">
                 
                     </div>
                    
@@ -638,7 +633,7 @@ function populateRecent(){
                 <div class="container-fluid" >
                     <h1 align = "center"> Search Entries </h1>
                     <div class="form-group">
-                     <input type="text" style="width:100%" id="queryInput" onkeyup="queryTable()" placeholder="Search for entries... You can search by day, activity name, mood, time e.g. Sun, Work, 21:00, Happy ...">
+                     <input type="text" style="width:100%" id="queryInput" onkeyup="queryTable()" placeholder="Search for entries... You can enter day, activity name, mood, time e.g. Sun, Work, 21:00 ...">
                      <br>
                      </div>
                     <div  id = "actSearchTable" style="overflow-y:scroll; display:block;height:90%;">
@@ -672,8 +667,8 @@ function populateRecent(){
                 <h1>Settings</h1>
             </div>
             <div class="form-row" align="center" style="width:100%; margin-left:60px; font-size:150%;">
-                <table style=" width:100%;">
-                    <tr class="spaceUnder">
+                <table style="border-spacing:12px; width:100%;">
+                    <tr>
                         <td>
                             <span>Reminders</span>        
                         </td>
@@ -683,7 +678,7 @@ function populateRecent(){
                             <div class="slider round"></div>
                         </td>
                     </tr>
-                    <tr class="spaceUnder">
+                    <tr>
                         <td>
                             <span>Remind me at &nbsp; &nbsp; </span>        
                         </td>
@@ -693,27 +688,26 @@ function populateRecent(){
                     </tr>
                 </table>
                 <hr>
-                <table style=" width:100%;" class="table-hover">
+                <table style="border-spacing:12px; width:100%;" class="table-hover">
                     
-                    <tr class="spaceUnder" style="cursor: pointer">
+                    <tr style="padding-bottom:1em">
                         <td >
-                            <span >Edit Activity </span>        
+                            <span>Edit Activity </span>        
                         </td>
                      </tr>
                             
-                    <tr class="spaceUnder" style="cursor: pointer">
-
+                    <tr>
                             <td >
-                            <span >Edit Mood </span>        
+                            <span>Edit Mood </span>        
                         </td>
 
                     </tr>
                 </table>
                 <hr>
-                <table style=" width:100%;">
-                    <tr class="spaceUnder">
+                <table style="border-spacing:12px; width:100%;">
+                    <tr>
                         <td>
-                            <span >Pin Lock</span>        
+                            <span>Pin Lock</span>        
                         </td>
                         <td>
                             <label class="switch">
@@ -721,26 +715,20 @@ function populateRecent(){
                             <div class="slider round"></div>
                         </td>
                     </tr>
-                    
-                    <tr class="table-hover">
-                        <table class="table-hover" style="width:100%">
-                            <tr class="spaceUnder">
+                    <tr>
                         <td>
-                            <span style="cursor:pointer">Set/Change Pin &nbsp; &nbsp;</span>        
+                            <span>Set Pin &nbsp; &nbsp;</span>        
                         </td>
                         <td>
                             
                         </td>
-                        </tr>
-                            </table>
                     </tr>
-                
-                
+                </table>
                 <hr>
-                <table style=" width:100%;">
-                    <tr class="spaceUnder">
+                <table style="border-spacing:12px; width:100%;">
+                    <tr>
                         <td>
-                            <span >Backup</span>        
+                            <span>Backup</span>        
                         </td>
                         <td>
                             <label class="switch">
@@ -748,7 +736,7 @@ function populateRecent(){
                             <div class="slider round"></div>
                         </td>
                     </tr>
-                    <tr class="spaceUnder">
+                    <tr>
                         <td>
                             <span>Backup daily at &nbsp; &nbsp; </span>        
                         </td>
@@ -758,15 +746,15 @@ function populateRecent(){
                     </tr>
                 </table>
                 <hr>
-                <table style="width:100%;" class="table-hover">
+                <table style="border-spacing:12px; width:100%;" class="table-hover">
                     
-                    <tr class="spaceUnder" style="cursor: pointer">
+                    <tr style="padding-bottom:1em">
                         <td >
                             <span>Backup Now </span>        
                         </td>
                      </tr>
                             
-                    <tr class="spaceUnder" style="cursor: pointer">
+                    <tr>
                             <td >
                             <span>Backup and Restore </span>        
                         </td>
@@ -852,8 +840,12 @@ function populateRecent(){
         </div>
 
 
-        <footer style="display:none">
-                <div class="copyright pull-right">Template adopted from <a href="http://www.creative-tim.com">Creative Tim</a>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                   
+                </nav>
+                <div class="copyright pull-right">Template obtained from <a href="http://www.creative-tim.com">Creative Tim</a>
                 </div>
             </div>
         </footer>

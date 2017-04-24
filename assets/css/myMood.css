@@ -344,3 +344,8 @@ input:checked + .slider:before {
     }
 
 }
+tr.spaceUnder > td
+{
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+}
