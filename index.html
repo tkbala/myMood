@@ -121,7 +121,7 @@ function populateRecent(){
 
             var todayDate = new Date();
             //var getFromDate = new Date(2017,03,16) // 03 means month 04 
-            var getFromDate = new Date("2017-03-16PDT");
+            var getFromDate = new Date("2017-04-17PDT");
             var inht = 0;
             var recentEntriesHTML="";
             //for (var d = getFromDate; d <= todayDate; d.setDate(d.getDate() + 1)) {
@@ -224,7 +224,7 @@ function populateRecent(){
                 writeActivityGrid();
                 populateRecent();
                 //var chartFromDate = new Date(2017,03,16);
-                var chartFromDate = new Date("2017-03-16PDT");
+                var chartFromDate = new Date("2017-04-17PDT");
                 var chartToDate = new Date();
                 calcStat(chartFromDate,chartToDate);
                 showPage('AddEntry',0);
@@ -264,7 +264,7 @@ function populateRecent(){
                 }
                 if(actionID == 1){
                     //var chartFromDate = new Date(2017,03,16);
-                    var chartFromDate = new Date("2017-03-16PDT");
+                    var chartFromDate = new Date("2017-04-17PDT");
                     var chartToDate = new Date();
                     calcStat(chartFromDate,chartToDate);
                 }
