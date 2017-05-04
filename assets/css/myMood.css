@@ -108,6 +108,28 @@
     
 }
 
+#othersMoodEntry {
+    display: flex;              
+    flex-direction: column;     
+    justify-content: center;    
+    align-items: center;       
+    
+}
+
+.othersMoodInput {
+    width: 300px;
+    margin: 5px;
+    text-align: center;
+}
+#othersMoodName{
+  font-size: 150%;
+}
+
+#othersMoodName::-webkit-input-placeholder {
+    color: #dddddd;
+    
+}
+
 
 .element::-moz-placeholder {
  color: #dddddd;

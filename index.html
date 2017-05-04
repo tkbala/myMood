@@ -121,7 +121,7 @@ function populateRecent(){
 
             var todayDate = new Date();
             //var getFromDate = new Date(2017,03,16) // 03 means month 04 
-            var getFromDate = new Date("2017-04-17PDT");
+            var getFromDate = new Date("2017-04-27PDT");
             var inht = 0;
             var recentEntriesHTML="";
             //for (var d = getFromDate; d <= todayDate; d.setDate(d.getDate() + 1)) {
@@ -156,9 +156,10 @@ function populateRecent(){
 
                 }
                 */
+                /*
                 if (dayEntries.length == 0){
                     recentEntriesHTML=recentEntriesHTML+"No Activities recorded for this day";
-                }
+                }*/
                 debugVar = dayEntries;
                 inht=inht+1;
                 recentEntriesHTML=recentEntriesHTML+"</div></div>";
@@ -224,9 +225,9 @@ function populateRecent(){
                 writeActivityGrid();
                 populateRecent();
                 //var chartFromDate = new Date(2017,03,16);
-                var chartFromDate = new Date("2017-04-17PDT");
+                var chartFromDate = new Date("2017-04-27PDT");
                 var chartToDate = new Date();
-                calcStat(chartFromDate,chartToDate);
+                //calcStat(chartFromDate,chartToDate);
                 showPage('AddEntry',0);
             }
             function othersCheck() {
@@ -264,8 +265,9 @@ function populateRecent(){
                 }
                 if(actionID == 1){
                     //var chartFromDate = new Date(2017,03,16);
-                    var chartFromDate = new Date("2017-04-17PDT");
+                    var chartFromDate = new Date("2017-04-27PDT");
                     var chartToDate = new Date();
+                    resetCanvas();
                     calcStat(chartFromDate,chartToDate);
                 }
                 else if(actionID == 2){
