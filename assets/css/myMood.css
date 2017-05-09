@@ -108,6 +108,28 @@
     
 }
 
+#othersEmoEntry {
+    display: flex;              
+    flex-direction: column;     
+    justify-content: center;    
+    align-items: center;       
+    
+}
+
+.othersEmoInput {
+    width: 300px;
+    margin: 5px;
+    text-align: center;
+}
+#othersEmoName{
+  font-size: 150%;
+}
+
+#othersEmoName::-webkit-input-placeholder {
+    color: #dddddd;
+    
+}
+
 #othersMoodEntry {
     display: flex;              
     flex-direction: column;     
